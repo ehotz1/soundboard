@@ -27,8 +27,4 @@ export class PlaylistComponent implements OnInit {
   drop(event: CdkDragDrop<SoundboxComponent[]>) {
     moveItemInArray(this.sounds, event.previousIndex, event.currentIndex);
   }
-
-  populateList(): void {
-    //this.songService.parseFilePaths().subscribe(list => this.sounds.push(list));
-  }
 }

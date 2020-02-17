@@ -8,6 +8,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SoundboxComponent } from './soundbox/soundbox.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FileSelectorComponent } from './file-selector/file-selector.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
