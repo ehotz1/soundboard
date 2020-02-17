@@ -9,9 +9,11 @@ export class SoundboxComponent {
   title: string;
   filePath: string;
 
-  constructor(title: string, filePath: string) { 
-    this.title = title;
-    this.filePath = filePath;
-  }
+  // constructor(title: string, filePath: string) { 
+  //   this.title = title;
+  //   this.filePath = filePath;
+  // }
+
+  constructor() {}
 
 }

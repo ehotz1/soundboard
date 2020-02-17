@@ -25,10 +25,9 @@ export class SongUploaderService {
 
   private createSoundbox(file) : SoundboxComponent {
     var songName = this.getTitleFromFileName(file.path);
-    var newSound = new SoundboxComponent(
-      songName,
-      file.path
-    );
+    var newSound = new SoundboxComponent();
+    newSound.title = songName;
+    newSound.filePath = file.path
     return newSound;
   }
 
