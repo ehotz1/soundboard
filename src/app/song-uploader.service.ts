@@ -12,7 +12,7 @@ export class SongUploaderService {
     this.songList = new Subject<SoundboxComponent[]>();
    }
 
-  public parseFilePaths(files) : Observable<SoundboxComponent[]> { //swap to void?
+  public parseFilePaths(files) : Observable<SoundboxComponent[]> {
     var newSounds: SoundboxComponent[] = [];
     for (let i = 0; i < files.length; i++) {
       //console.log(files[i].webkitRelativePath, files[i].path);

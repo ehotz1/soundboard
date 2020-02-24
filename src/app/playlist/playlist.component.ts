@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
 import { SoundboxComponent } from '../soundbox/soundbox.component';
-import { SongUploaderService } from '../song-uploader.service';
+import { DropService } from '../drop-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,21 +10,25 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  subscription: Subscription;
+  @ViewChild('playlistList') playlistList: CdkDropList;
+  connectedRepo: CdkDropList;
 
-  constructor(private songService: SongUploaderService) {
+  dropService: DropService;
+  sounds: SoundboxComponent[];
+
+  constructor(private DropService: DropService) {
+    this.dropService = DropService;
     this.sounds = [];
-    this.subscription = this.songService.getSongList().subscribe(songs => {
-      songs.forEach(x => this.sounds.push(x));
-    });
-   }
-
+  }
+  
   ngOnInit() {
+    this.dropService.setPlaylistConnector(this.playlistList);
+    this.connectedRepo = this.dropService.repoConnector;
   }
 
-  sounds: SoundboxComponent[]
+  
 
   drop(event: CdkDragDrop<SoundboxComponent[]>) {
-    moveItemInArray(this.sounds, event.previousIndex, event.currentIndex);
+    this.dropService.drop(event);
   }
 }

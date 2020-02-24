@@ -1,0 +1,3 @@
+<div cdkDropList class="example-list" id="repositoryList" cdkDropListConnectedTo="playlistList" (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let sound of sounds" class="example-box" cdkDrag>{{sound.title}}</div>
+</div>

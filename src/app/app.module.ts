@@ -9,13 +9,15 @@ import { SoundboxComponent } from './soundbox/soundbox.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RepositoryComponent } from './repository/repository.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SoundboxComponent,
     PlaylistComponent,
-    FileSelectorComponent
+    FileSelectorComponent,
+    RepositoryComponent
   ],
   imports: [
     BrowserModule,
