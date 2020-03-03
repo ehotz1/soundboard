@@ -54,3 +54,13 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
   
+  .playButton {
+    width: 74px;
+    height: 74px;
+    border-style: solid;
+    border-color: transparent transparent transparent #202020;
+    box-sizing: border-box;
+    border-width: 37px 0px 37px 74px;
+  }
+
+  

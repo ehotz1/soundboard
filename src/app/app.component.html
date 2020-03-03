@@ -10,7 +10,7 @@
             [cdkDropListConnectedTo]="[playlistList]" 
             (cdkDropListDropped)="drop($event)"
             [cdkDropListData]="repoSounds">
-            <div *ngFor="let sound of repoSounds" class="example-box" cdkDrag>{{sound.title}}</div>
+            <div *ngFor="let sound of repoSounds" cdkDrag>{{sound.title}}</div>
         </div>
     </div>
     <div>
@@ -20,7 +20,14 @@
             [cdkDropListConnectedTo]="[repositoryList]" 
             (cdkDropListDropped)="drop($event)"
             [cdkDropListData]="playlistSounds">
-            <div *ngFor="let sound of playlistSounds" class="example-box" cdkDrag>{{sound.title}}</div>
+            <div *ngFor="let sound of playlistSounds" cdkDrag>
+                <div class="playlistItem">
+                    <div class="title">{{sound.title}}</div>
+                    <div>
+                      <button>▶️</button>
+                    </div>
+                  </div>
+            </div>
         </div>
     </div>
 </div>
