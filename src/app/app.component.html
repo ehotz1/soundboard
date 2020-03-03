@@ -1,12 +1,26 @@
 <p>Test text</p>
 
-<div fxLayout="row" cdkDropListGroup>
+<div fxLayout="row">
     <div>
         <app-file-selector></app-file-selector>
 
-        <app-repository></app-repository>
+        <div cdkDropList 
+            class="example-list" 
+            #repositoryList="cdkDropList"
+            [cdkDropListConnectedTo]="[playlistList]" 
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListData]="repoSounds">
+            <div *ngFor="let sound of repoSounds" class="example-box" cdkDrag>{{sound.title}}</div>
+        </div>
     </div>
     <div>
-        <app-playlist></app-playlist>
+        <div cdkDropList 
+            class="example-list" 
+            #playlistList="cdkDropList" 
+            [cdkDropListConnectedTo]="[repositoryList]" 
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListData]="playlistSounds">
+            <div *ngFor="let sound of playlistSounds" class="example-box" cdkDrag>{{sound.title}}</div>
+        </div>
     </div>
 </div>

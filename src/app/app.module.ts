@@ -6,18 +6,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SoundboxComponent } from './soundbox/soundbox.component';
-import { PlaylistComponent } from './playlist/playlist.component';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RepositoryComponent } from './repository/repository.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SoundboxComponent,
-    PlaylistComponent,
     FileSelectorComponent,
-    RepositoryComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
