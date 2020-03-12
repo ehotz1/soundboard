@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { SongUploaderService } from './song-uploader.service';
 import { SoundboxComponent } from './soundbox/soundbox.component';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { AudioService } from './audio.service'
+import { StreamState } from './interfaces/stream-state';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +16,20 @@ export class AppComponent implements OnInit {
   uploaderSubscription: Subscription;
   repoSounds: SoundboxComponent[];
   playlistSounds: SoundboxComponent[];
+  audioService: AudioService;
+  state: StreamState;
+  currentSound: any = {};
 
-  constructor(private SongService: SongUploaderService) {
+  constructor(private SongService: SongUploaderService, private AudioService: AudioService) {
     this.repoSounds = [];
     this.playlistSounds = [];
     this.uploaderSubscription = this.SongService.getSongList().subscribe(songs => {
       songs.forEach(x => this.repoSounds.push(x));
+    });
+
+    this.audioService = AudioService;
+    this.audioService.getState().subscribe(state => {
+      this.state = state;
     });
    }
 
@@ -39,4 +49,47 @@ export class AppComponent implements OnInit {
                         event.currentIndex);
     }
   }
+
+  playEvent(event, index) {
+    this.playSound(this.playlistSounds[index], index);
+  }
+  
+  playStream(url) {
+    console.log("URL: " + url);
+    this.audioService.playStream(url).subscribe(events => {
+
+    });
+  }
+
+  playSound(sound: SoundboxComponent, index) { 
+    this.currentSound = {sound, index };
+    this.audioService.stop();
+    this.playStream(sound.filePath);
+  }
+
+  pause() {
+    this.audioService.pause();
+  }
+
+  play() {
+    this.audioService.play();
+  }
+
+  stop() {
+    this.audioService.stop();
+  }
+
+  next() {
+    const index = (this.currentSound.index < this.playlistSounds.length) ? this.currentSound.index + 1 : 0;
+    const sound = this.playlistSounds[index];
+    this.playSound(sound, index);
+  }
+
+  previous() {
+    const index = (this.currentSound.index == 0) ? this.playlistSounds.length - 1 : this.currentSound.index - 1;
+    const sound = this.playlistSounds[index];
+    this.playSound(sound, index);
+  }
+
+  
 }

@@ -8,7 +8,7 @@ import { StreamState } from './interfaces/stream-state';
   providedIn: "root"
 })
 export class AudioService {
-  private stop$ = new Subject();
+  private _stop = new Subject();
   private audioObj = new Audio();
   audioEvents = [
     "ended",
@@ -32,8 +32,12 @@ export class AudioService {
     error: false,
   };
 
+  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(
+    this.state
+  );
+
   playStream(url) {
-    return this.streamObservable(url).pipe(takeUntil(this.stop$));
+    return this.streamObservable(url).pipe(takeUntil(this._stop));
   }
 
   play() {
@@ -45,7 +49,7 @@ export class AudioService {
   }
 
   stop() {
-    this.stop$.next();
+    this._stop.next();
   }
 
   seekTo(seconds) {
@@ -93,10 +97,6 @@ export class AudioService {
       obj.removeEventListener(event, handler);
     });
   }
-
-  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(
-    this.state
-  );
 
   private updateStateEvents(event: Event): void {
     switch (event.type) {
