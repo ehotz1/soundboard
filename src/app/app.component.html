@@ -24,7 +24,10 @@
                 <div class="playlistItem">
                     <div class="title">{{sound.title}}</div>
                     <div>
-                      <button (click)="playEvent($event, i)">▶️</button>
+                      <button (click)="playClick($event, i)">
+                          <div *ngIf="!state.playing">|></div>
+                          <div *ngIf="state.playing">||</div>
+                        </button>
                     </div>
                   </div>
             </div>

@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   audioService: AudioService;
   state: StreamState;
   currentSound: any = {};
+  icon: string;
 
   constructor(private SongService: SongUploaderService, private AudioService: AudioService) {
     this.repoSounds = [];
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
     this.audioService.getState().subscribe(state => {
       this.state = state;
     });
-   }
+  }
 
   ngOnInit() {}
 
@@ -50,12 +51,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  playEvent(event, index) {
-    this.playSound(this.playlistSounds[index], index);
+  playClick(event, index) {
+    if (this.state.playing) {
+      this.pause();
+    } else {
+      this.playSound(this.playlistSounds[index], index);
+    }
   }
   
   playStream(url) {
-    console.log("URL: " + url);
     this.audioService.playStream(url).subscribe(events => {
 
     });
@@ -63,7 +67,7 @@ export class AppComponent implements OnInit {
 
   playSound(sound: SoundboxComponent, index) { 
     this.currentSound = {sound, index };
-    this.audioService.stop();
+    this.stop();
     this.playStream(sound.filePath);
   }
 
