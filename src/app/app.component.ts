@@ -55,7 +55,11 @@ export class AppComponent implements OnInit {
     if (this.state.playing) {
       this.pause();
     } else {
-      this.playSound(this.playlistSounds[index], index);
+      if (this.currentSound.index == index) {
+        this.play();
+      } else {
+        this.playSound(this.playlistSounds[index], index);
+      }
     }
   }
   

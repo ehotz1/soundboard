@@ -8,12 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class SoundboxComponent {
   title: string;
   filePath: string;
+  fileId: string;
+  sounds: SoundboxComponent[];
 
-  // constructor(title: string, filePath: string) { 
-  //   this.title = title;
-  //   this.filePath = filePath;
-  // }
+  constructor() {
+    this.sounds = [];
+  }
 
-  constructor() {}
+  public toString() : string {
+    return this.title;
+  }
 
 }

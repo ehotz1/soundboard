@@ -6,28 +6,34 @@ import { Observable, of, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SongUploaderService {
-  songList: Subject<SoundboxComponent[]>;
+  soundList: Subject<SoundboxComponent[]>;
 
   constructor() {
-    this.songList = new Subject<SoundboxComponent[]>();
+    this.soundList = new Subject<SoundboxComponent[]>();
    }
 
   public parseFilePaths(files) : Observable<SoundboxComponent[]> {
+    //clear soundList?
     var newSounds: SoundboxComponent[] = [];
     for (let i = 0; i < files.length; i++) {
-      //console.log(files[i].webkitRelativePath, files[i].path);
-      //TODO handle multiple directories
-      newSounds.push(this.createSoundbox(files[i]));
+      var folders = files[i].webkitRelativePath.split('/');
+      folders.shift();
+      this.sortFile(folders, files[i].path, newSounds);
     }
-    this.songList.next(newSounds);
+    console.log(newSounds.toString());
+    this.soundList.next(newSounds);
     return of(newSounds);
   }
 
-  private createSoundbox(file) : SoundboxComponent {
-    var songName = this.getTitleFromFileName(file.path);
+  public getSongList() : Observable<SoundboxComponent[]> {
+    return this.soundList.asObservable();
+  }
+
+  private createSoundbox(filePath: string) : SoundboxComponent {
+    var songName = this.getTitleFromFileName(filePath);
     var newSound = new SoundboxComponent();
     newSound.title = songName;
-    newSound.filePath = file.path
+    newSound.filePath = filePath;
     return newSound;
   }
 
@@ -39,7 +45,19 @@ export class SongUploaderService {
     return splitTitle.join();
   }
 
-  public getSongList() : Observable<SoundboxComponent[]> {
-    return this.songList.asObservable();
+  private sortFile(relativePath: string[], fullPath: string, soundboxList: SoundboxComponent[]) {
+    if (relativePath.length == 1) {
+      soundboxList.push(this.createSoundbox(fullPath));
+    } else {
+      var dir = soundboxList.find(x => x.title == relativePath[0]);
+      if (dir == null) {
+        var newdir = new SoundboxComponent();
+        newdir.title = relativePath[0];
+        soundboxList.push(newdir);
+        dir = newdir;
+      }
+      relativePath.shift()
+      this.sortFile(relativePath, fullPath, dir.sounds);
+    }
   }
 }
