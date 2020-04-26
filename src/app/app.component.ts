@@ -5,6 +5,7 @@ import { SoundboxComponent } from './soundbox/soundbox.component';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { AudioService } from './audio.service'
 import { StreamState } from './interfaces/stream-state';
+import { FilePathModel } from './models/filePathModel';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +15,22 @@ import { StreamState } from './interfaces/stream-state';
 export class AppComponent implements OnInit {
   title = 'Soundboard';
   uploaderSubscription: Subscription;
-  repoSounds: SoundboxComponent[];
-  playlistSounds: SoundboxComponent[];
+  //repoSounds: SoundboxComponent[];
+  //playlistSounds: SoundboxComponent[];
   audioService: AudioService;
   state: StreamState;
   currentSound: any = {};
   icon: string;
 
+  fileList: FilePathModel[];
+  playlistSounds: FilePathModel[];
+
   constructor(private SongService: SongUploaderService, private AudioService: AudioService) {
-    this.repoSounds = [];
+    this.fileList = [];
     this.playlistSounds = [];
-    this.uploaderSubscription = this.SongService.getSongList().subscribe(songs => {
-      songs.forEach(x => this.repoSounds.push(x));
+    this.uploaderSubscription = this.SongService.getFileList().subscribe(files => {
+      files.forEach(x => this.fileList.push(x));
+      //Model -> Soundbox?
     });
 
     this.audioService = AudioService;
@@ -69,10 +74,10 @@ export class AppComponent implements OnInit {
     });
   }
 
-  playSound(sound: SoundboxComponent, index) { 
+  playSound(sound: FilePathModel, index) { 
     this.currentSound = {sound, index };
     this.stop();
-    this.playStream(sound.filePath);
+    //this.playStream(sound.filePath);
   }
 
   pause() {

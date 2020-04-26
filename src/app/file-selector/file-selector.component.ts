@@ -17,6 +17,6 @@ export class FileSelectorComponent implements OnInit {
   
 
   filesPicked(files) {
-    this.songUploaderService.parseFilePaths(files);
+    this.songUploaderService.generateFileList(files);
   }
 }

@@ -5,22 +5,22 @@
         <app-file-selector></app-file-selector>
 
         <div cdkDropList 
-            class="example-list" 
             #repositoryList="cdkDropList"
-            [cdkDropListConnectedTo]="[playlistList]" 
+            [cdkDropListConnectedTo]="[playlistList]"
             (cdkDropListDropped)="drop($event)"
-            [cdkDropListData]="repoSounds">
-            <div *ngFor="let sound of repoSounds" cdkDrag>{{sound.title}}</div>
+            [cdkDropListData]="fileList">
+            <app-soundbox [filePathModel]="file" *ngFor="let file of fileList" cdkDrag></app-soundbox>
         </div>
     </div>
     <div>
         <div cdkDropList 
             class="example-list" 
             #playlistList="cdkDropList" 
-            [cdkDropListConnectedTo]="[repositoryList]" 
+            [cdkDropListConnectedTo]="repositoryList"
             (cdkDropListDropped)="drop($event)"
-            [cdkDropListData]="playlistSounds">
-            <div *ngFor="let sound of playlistSounds; let i = index;" cdkDrag>
+            [cdkDropListData]="playlistSounds" >
+            <app-soundbox [filePathModel]="file" *ngFor="let file of playlistSounds" cdkDrag></app-soundbox>
+            <!-- <div *ngFor="let sound of playlistSounds; let i = index;" cdkDrag>
                 <div class="playlistItem">
                     <div class="title">{{sound.title}}</div>
                     <div>
@@ -30,7 +30,7 @@
                         </button>
                     </div>
                   </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
