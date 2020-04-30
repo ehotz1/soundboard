@@ -1,36 +1,46 @@
 import { Injectable } from '@angular/core';
 import { SoundboxComponent } from './soundbox/soundbox.component';
 import { Observable, of, Subject } from 'rxjs';
-import { FilePathModel } from './models/filePathModel';
+import { ListItemModel } from './models/ListItemModel';
+import { FileModel } from './models/FileModel';
+import { FolderModel } from './models/FolderModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongUploaderService {
   soundList: Subject<SoundboxComponent[]>;
-  fileList: Subject<FilePathModel[]>;
+  fileList: Subject<ListItemModel[]>;
 
   constructor() {
     this.soundList = new Subject<SoundboxComponent[]>();
-    this.fileList = new Subject<FilePathModel[]>();
+    this.fileList = new Subject<ListItemModel[]>();
   }
 
-  public generateFileList(files) : Observable<FilePathModel[]> {
-    var newFiles: FilePathModel[] = [];
+  public generateFileList(files) : Observable<ListItemModel[]> {
+    var newFiles: ListItemModel[] = [];
     for (let i = 0; i < files.length; i++) {
-      this.addFolderIfMissing(newFiles, files[i])
-      newFiles.push(new FilePathModel(files[i].path, files[i].webkitRelativePath));
+      // if(this.isMissingFolder(newFiles, files[i])) {
+      //   newFiles.push(this.getNewFolder(files[i].path));
+      // }
+      newFiles.push(new FileModel(files[i].path, files[i].webkitRelativePath));
     }
     this.fileList.next(newFiles);
     return of(newFiles);
   }
 
-  public getFileList() : Observable<FilePathModel[]> {
+  public getFileList() : Observable<ListItemModel[]> {
     return this.fileList.asObservable();
   }
 
-  private addFolderIfMissing(newFiles: FilePathModel[], file) {
-    
+  private isMissingFolder(newFiles: ListItemModel[], file) : boolean {
+    //TODO
+    return false;
+  }
+
+  private getNewFolder(filePath: string) : FolderModel {
+    //TODO
+    return new FolderModel("");
   }
 
   // public parseFilePaths(files) : Observable<SoundboxComponent[]> {

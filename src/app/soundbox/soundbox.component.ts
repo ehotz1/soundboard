@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FilePathModel } from '../models/filePathModel';
+import { ListItemModel } from '../models/ListItemModel';
+import { FileModel } from '../models/FileModel';
 
 @Component({
   selector: 'app-soundbox',
@@ -8,7 +9,7 @@ import { FilePathModel } from '../models/filePathModel';
 })
 export class SoundboxComponent {
   title: string;
-  @Input() filePathModel: FilePathModel;
+  @Input() listItemModel: ListItemModel;
   sounds: SoundboxComponent[];
   isFolder: boolean;
   isVisible: boolean;
@@ -18,8 +19,10 @@ export class SoundboxComponent {
   }
 
   ngOnInit() {
-    this.title = this.getTitleFromFilePath(this.filePathModel.filePath);
-    this.isFolder = this.parseFolderHierarchy(this.filePathModel.relativePath);
+    if (this.listItemModel instanceof FileModel) {
+      this.title = this.getTitleFromFilePath(this.listItemModel.filePath);
+      this.isFolder = this.parseFolderHierarchy(this.listItemModel.relativePath);
+    }
   }
 
   public addChild(child: SoundboxComponent) {
